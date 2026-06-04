@@ -1,8 +1,12 @@
-# Happy Alpha — CLAUDE.md
+# Signet — CLAUDE.md
 
 ## Product Vision
-Happy Alpha: where smart money meets good vibes. ✨
-An AI-powered investment intelligence platform that helps individual investors track smart money signals and build conviction on high-growth stocks.
+Signet: investment intelligence with the precision of a seal.
+An AI-powered research platform that helps individual investors track smart money signals and build conviction on high-growth stocks before the market catches up.
+
+## Product Name
+**Signet** — named in the tradition of Medallion Fund (Renaissance Technologies). A signet ring is a mark of authority and earned distinction. The name also echoes "signal" — the core of what this product does.
+GitHub repo stays: Porter-Seattle/happy-alpha (consistent for portfolio purposes)
 
 ## Target User
 Cinthia — finance background, learning active investing, wants to track signals from smart investors like Serenity and build her own investment framework.
@@ -33,7 +37,7 @@ Monitor Serenity's tweets, AI auto-classifies signals, sends email alerts
 ### Product 2: Investment Learning (Layer 2) — NOT STARTED
 Help understand financial instruments, support investment analysis, manage risk
 
-### Product 3: Company Intelligence — NEXT TO BUILD
+### Product 3: Company Intelligence — IN PROGRESS
 Systematically research companies Serenity follows.
 
 ## Company Research Framework
@@ -51,10 +55,11 @@ For each company, answer:
 
 ## UX Design Direction
 - Reference: Claude.ai's UX philosophy — conversational, natural, not overwhelming
-- User types a company name → Happy Alpha responds like a conversation, not a dashboard dump
+- User types a company name → Signet responds like a conversation, not a dashboard dump
 - Information revealed on demand, not all at once
-- Also reference: claude.com/solutions/financial-services for financial UX patterns
-- Visual: Clean, minimal, premium feel. Emerald green accent. Dark theme.
+- Reference: claude.com/solutions/financial-services for visual aesthetic
+- Visual: Light theme. Warm off-white background. Soft, premium typography. Subtle shadows, not glowing borders. Feels like a boutique research firm or wealth advisor — NOT a trading terminal or dark crypto app.
+- Accent: deep navy or warm slate — sophisticated, not neon.
 
 ## Tech Stack
 - Frontend: Lovable (React) — connected to this GitHub repo
@@ -76,10 +81,11 @@ For each company, answer:
 - Document every design decision and the reasoning behind it
 - Build this as a portfolio piece for AIPM job applications
 
-## Next Session TODO
-1. Redesign Company Intelligence UI in Lovable
-   - Conversational UX (like Claude.ai)
-   - User inputs company name → AI generates full analysis
-   - Reference Claude.ai interaction patterns
-2. Connect Lovable to this GitHub repo
-3. Test with real company (NBIS or SIVE)
+## Current Build State (Product 3)
+Component files built, ready to integrate:
+- `src/components/company-intelligence/` — full UI components
+- `src/hooks/useCompanyAnalysis.ts` — Claude streaming hook
+- `src/lib/companyIntelligencePrompt.ts` — system prompt
+- `api/company-intelligence.ts` — backend route
+- `api/server.ts` — Express server for Railway
+- `supabase/company_intelligence_schema.sql` — DB schema
