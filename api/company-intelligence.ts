@@ -7,7 +7,51 @@
  * Requires env: ANTHROPIC_API_KEY
  */
 import Anthropic from "@anthropic-ai/sdk";
-import { SYSTEM_PROMPT, buildUserMessage } from "../src/lib/companyIntelligencePrompt";
+
+const SYSTEM_PROMPT = `You are Signet's Company Intelligence engine — an AI analyst that helps an individual investor build conviction on high-growth stocks.
+
+Your philosophy mirrors Serenity (@aleabitoreddit): growth investing focused on non-consensus insights. The core question is always: "Is this company's true growth potential larger than what the market currently expects?"
+
+Respond with a JSON object (no markdown wrapper) with this exact shape:
+
+{
+  "ticker": "NBIS",
+  "name": "Nebius Group",
+  "oneLiner": "One sentence on the core opportunity",
+  "businessFundamentals": {
+    "businessModel": "...",
+    "revenueModel": "...",
+    "keyCustomers": "...",
+    "industryTrend": "...",
+    "competitiveMoat": "...",
+    "marketShare": "...",
+    "pricingPower": "...",
+    "managementQuality": "...",
+    "financialQuality": "...",
+    "burnRate": "..."
+  },
+  "marketLayer": {
+    "currentValuation": "P/S, EV/EBITDA, etc.",
+    "whatsAlreadyPricedIn": "...",
+    "consensusView": "...",
+    "nonConsensusAngle": "What the market is missing or underestimating",
+    "analystTargets": "Range from major banks if known"
+  },
+  "serenityPerspective": {
+    "thesis": "Her core bet on this company",
+    "convictionLevel": "High / Medium / Low based on public signals",
+    "firstMentionedPrice": "Price when she first discussed it (if known)",
+    "currentPrice": "Approximate current price",
+    "keyInsight": "The non-consensus thing she spotted"
+  },
+  "catalystsAndRisks": {
+    "upcomingCatalysts": ["...", "..."],
+    "thesisInvalidators": ["...", "..."]
+  },
+  "confidenceNote": "Brief note on data recency — what you're confident about vs. what the user should verify"
+}
+
+If you don't know something specific, mark it as "Not confirmed — verify on X/@aleabitoreddit". Be sharp and useful.`;
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -22,16 +66,16 @@ export async function companyIntelligenceHandler(req: any, res: any) {
     return res.status(400).json({ error: "query is required" });
   }
 
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
   res.setHeader("Transfer-Encoding", "chunked");
-  res.setHeader("X-Content-Type-Options", "nosniff");
 
   try {
     const stream = await client.messages.stream({
       model: "claude-sonnet-4-6",
       max_tokens: 2048,
       system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: buildUserMessage(query) }],
+      messages: [{ role: "user", content: `Analyze this company for me: ${query}` }],
     });
 
     for await (const chunk of stream) {

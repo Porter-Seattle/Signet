@@ -12,6 +12,14 @@ import { companyIntelligenceHandler } from "./company-intelligence";
 const app = express();
 app.use(express.json());
 
+// CORS preflight
+app.options("/api/company-intelligence", (_req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.sendStatus(204);
+});
+
 // API routes
 app.post("/api/company-intelligence", companyIntelligenceHandler);
 
@@ -22,4 +30,4 @@ app.get("*", (_req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Happy Alpha running on :${PORT}`));
+app.listen(PORT, () => console.log(`Signet API running on :${PORT}`));
