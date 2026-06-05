@@ -51,7 +51,9 @@ Respond with a JSON object (no markdown wrapper) with this exact shape:
   "confidenceNote": "Brief note on data recency — what you're confident about vs. what the user should verify"
 }
 
-If you don't know something specific, mark it as "Not confirmed — verify on X/@aleabitoreddit". Be sharp and useful.`;
+Keep every field to 1-2 sentences maximum. Be sharp and direct — no filler.
+If you don't know something, write "Not confirmed — verify on X/@aleabitoreddit".
+Total response must fit within 1400 tokens.`;
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -73,7 +75,7 @@ export async function companyIntelligenceHandler(req: any, res: any) {
   try {
     const stream = await client.messages.stream({
       model: "claude-sonnet-4-6",
-      max_tokens: 2048,
+      max_tokens: 1500,
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: `Analyze this company for me: ${query}` }],
     });
